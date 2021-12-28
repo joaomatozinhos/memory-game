@@ -24,6 +24,24 @@ function showCards(cards) {
 
 // função para virar a carta
 function flipCard(card) {
-  console.log(card)
-  card.classList.add('flip')
+  // se conseguir definir uma carta, coloca a class 'flip' nela
+  if (game.setCard(card.id)) {
+    card.classList.add('flip')
+
+    // se as cartas derem match, elas ficam viradas e "outra rodada começa"
+    if (game.checkMatch()) {
+      game.clearCards()
+    }
+    // senão teve match...
+    else {
+      setTimeout(() => {
+        let firstCardView = document.getElementById(game.firstCard.id)
+        let secondCardView = document.getElementById(game.secondCard.id)
+
+        firstCardView.classList.remove('flip')
+        secondCardView.classList.remove('flip')
+        game.clearCards()
+      }, 1000)
+    }
+  }
 }

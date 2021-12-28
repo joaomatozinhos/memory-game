@@ -1,4 +1,58 @@
+/* OBSERVAÇÕES SOBRE O JOGO DA MEMÓRIA
+
+  1ª: é preciso virar duas cartas e checar se elas são iguais. Se forem iguais, permanecem no tabuleiro viradas para cima, senão são viradas para baixo.
+
+  2ª: ao clicar em uma carta, deve-se marcar qual é o ID dela e, ao clicar na segunda carta, deve-se comparar o seu ID com o da primeira.
+
+  3ª: a segunda carta não pode ser a primeira carta. Dessa forma, se uma carta estiver virada, ela não pode receber o clique novamente.
+
+  4ª: após selecionar a segunda carta, enquanto faz a verificação, não pode selecionar uma terceira -> por isso que criou o "lockMode"
+*/
+
 let game = {
+  // "lockMode" é uma propriedade que será usada para impedir que o usuário selecione uma terceira carta quando estiver ocorrendo a verificação. Após selecionar a segunda carta, entrará em "lockMode" e não poderá selecionar a terceira.
+  lockMode: false,
+
+  // armazena a primeira carta selecionada
+  firstCard: null,
+  // armazena a segunda carta selecionada
+  secondCard: null,
+
+  // método para definir uma carta -> retorna true ou false para saber se a carta pode ser usada ou não. Por exemplo, se ela já está virada, não pode ser usada, logo retornará false.
+  setCard: function (id) {
+    // pega todas as cartas e faz a filtragem para pegar apenas a carta que tiver o ID em questão.
+    let card = this.cards.filter(card => card.id === id)[0]
+    // console.log(card)
+
+    // se a carta já foi virada ou estiver em lockMode, retorna false
+    if (card.flipped || this.lockMode) {
+      return false
+    }
+
+    // se a primeira carta estiver vazia (null), define ela como card e retorna true. Senão, define a segunda carta como card e retorna true
+    if (!this.firstCard) {
+      this.firstCard = card
+      return true
+    } else {
+      this.secondCard = card
+      // se colocou uma carta na segunda carta, automaticamente entra em lockMode, pois não se pode selecionar uma terceira carta
+      this.lockMode = true
+      return true
+    }
+  },
+
+  // método que verifica se as cartas deram match -> retorna true se o ícone da primeira carta for igual ao da segunda carta
+  checkMatch: function () {
+    return this.firstCard.icon === this.secondCard.icon
+  },
+
+  // método para liberar as cartas
+  clearCards: function () {
+    this.firstCard = null
+    this.secondCard = null
+    this.lockMode = false
+  },
+
   techs: [
     'html',
     'css',
@@ -27,6 +81,7 @@ let game = {
     this.cards = this.cards.flatMap(card => card)
     // a função flatMap é semelhante à função map, ou seja, retorna um array, mas se cada elemento do array tiver um outro array dentro (que é o nosso caso), ela desmembra isso
     this.shuffleCards()
+    // console.log(this.cards)
     return this.cards
   },
 
@@ -53,7 +108,7 @@ let game = {
   },
 
   // método para embaralhar as cartas
-  shuffleCards: function (cards) {
+  shuffleCards: function () {
     let currentIndex = this.cards.length
     let randomIndex = 0
 
