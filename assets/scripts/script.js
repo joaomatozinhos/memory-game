@@ -28,20 +28,23 @@ function flipCard(card) {
   if (game.setCard(card.id)) {
     card.classList.add('flip')
 
-    // se as cartas derem match, elas ficam viradas e "outra rodada começa"
-    if (game.checkMatch()) {
-      game.clearCards()
-    }
-    // senão teve match...
-    else {
-      setTimeout(() => {
-        let firstCardView = document.getElementById(game.firstCard.id)
-        let secondCardView = document.getElementById(game.secondCard.id)
-
-        firstCardView.classList.remove('flip')
-        secondCardView.classList.remove('flip')
+    // se a segunda carta estiver preenchida..
+    if (game.secondCard) {
+      // se as cartas derem match, elas ficam viradas e "outra rodada começa"
+      if (game.checkMatch()) {
         game.clearCards()
-      }, 1000)
+      }
+      // senão teve match...
+      else {
+        setTimeout(() => {
+          let firstCardView = document.getElementById(game.firstCard.id)
+          let secondCardView = document.getElementById(game.secondCard.id)
+
+          firstCardView.classList.remove('flip')
+          secondCardView.classList.remove('flip')
+          game.unflipCards()
+        }, 1000)
+      }
     }
   }
 }

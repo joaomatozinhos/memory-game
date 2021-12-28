@@ -22,7 +22,7 @@ let game = {
   setCard: function (id) {
     // pega todas as cartas e faz a filtragem para pegar apenas a carta que tiver o ID em questão.
     let card = this.cards.filter(card => card.id === id)[0]
-    // console.log(card)
+    console.log(card)
 
     // se a carta já foi virada ou estiver em lockMode, retorna false
     if (card.flipped || this.lockMode) {
@@ -32,9 +32,12 @@ let game = {
     // se a primeira carta estiver vazia (null), define ela como card e retorna true. Senão, define a segunda carta como card e retorna true
     if (!this.firstCard) {
       this.firstCard = card
+      this.firstCard.flipped = true
       return true
     } else {
       this.secondCard = card
+      this.secondCard.flipped = true
+
       // se colocou uma carta na segunda carta, automaticamente entra em lockMode, pois não se pode selecionar uma terceira carta
       this.lockMode = true
       return true
@@ -43,6 +46,10 @@ let game = {
 
   // método que verifica se as cartas deram match -> retorna true se o ícone da primeira carta for igual ao da segunda carta
   checkMatch: function () {
+    // se uma das cartas estiverem vazias (null) não faz a verificação e retorna false
+    if (!this.firstCard || !this.secondCard) {
+      return false
+    }
     return this.firstCard.icon === this.secondCard.icon
   },
 
@@ -51,6 +58,13 @@ let game = {
     this.firstCard = null
     this.secondCard = null
     this.lockMode = false
+  },
+
+  // método para desvirar a carta
+  unflipCards: function () {
+    this.firstCard.flipped = false
+    this.secondCard.flipped = false
+    this.clearCards()
   },
 
   techs: [
