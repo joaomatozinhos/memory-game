@@ -1,3 +1,5 @@
+// MONTAGEM DO TABULEIRO
+
 let board = document.getElementById('board')
 let cardList = document.getElementsByClassName('cards')
 
@@ -5,6 +7,7 @@ startGame()
 
 function startGame() {
   cards = game.createCards()
+  //console.log(cards)
   showCards(cards)
 }
 
