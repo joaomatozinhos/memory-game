@@ -13,6 +13,8 @@ function startGame() {
 
 // função para exibir cartas na tela
 function showCards(cards) {
+  board.innerHTML = ''
+
   for (let card of cards) {
     board.innerHTML += `
       <div id="${card.id}" class="card" data-icon="${card.icon}" onclick="flipCard(${card.id})">
@@ -36,6 +38,10 @@ function flipCard(card) {
       // se as cartas derem match, elas ficam viradas e "outra rodada começa"
       if (game.checkMatch()) {
         game.clearCards()
+        if (game.checkGameOver()) {
+          let gameOverLayer = document.getElementById('gameOver')
+          gameOverLayer.style.display = 'flex'
+        }
       }
       // senão teve match...
       else {
@@ -50,4 +56,13 @@ function flipCard(card) {
       }
     }
   }
+}
+
+// função para reiniciar o jogo
+function restart() {
+  game.clearCards()
+  startGame()
+
+  let gameOverLayer = document.getElementById('gameOver')
+  gameOverLayer.style.display = 'none'
 }

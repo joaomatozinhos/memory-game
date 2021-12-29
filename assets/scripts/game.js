@@ -138,5 +138,10 @@ let game = {
     this.firstCard.flipped = false
     this.secondCard.flipped = false
     this.clearCards()
+  },
+
+  // método para finalizar o jogo
+  checkGameOver: function () {
+    return this.cards.filter(card => !card.flipped).length == 0
   }
 }
