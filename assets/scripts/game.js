@@ -143,5 +143,6 @@ let game = {
   // método para finalizar o jogo
   checkGameOver: function () {
     return this.cards.filter(card => !card.flipped).length == 0
+    // o código acima filtra as cartas que estão para baixo. Caso o tamanho do array que contém as cartas para baixo seja igual 0, isso significa que não há nenhuma carta para baixo, logo conclui-se que todas estão viradas e então, o jogo finaliza.
   }
 }

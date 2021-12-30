@@ -38,6 +38,7 @@ function flipCard(card) {
       // se as cartas derem match, elas ficam viradas e "outra rodada começa"
       if (game.checkMatch()) {
         game.clearCards()
+        // se todas as cartas foram viradas..
         if (game.checkGameOver()) {
           let gameOverLayer = document.getElementById('gameOver')
           gameOverLayer.style.display = 'flex'
